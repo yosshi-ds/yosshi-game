@@ -2,32 +2,37 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>3Dスイカゲーム（スマホ対応）</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Three.jsテスト</title>
   <style>
-    html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+    body { margin: 0; }
     canvas { display: block; }
-    #score {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      color: white;
-      font-size: 18px;
-      font-family: sans-serif;
-      z-index: 1;
-      user-select: none;
-    }
   </style>
 </head>
 <body>
-  <div id="score">スコア: 0</div>
-  <!-- 正しいCDNを使用 -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/schteppe/cannon.js/build/cannon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.153.0/build/three.min.js"></script>
   <script>
-    // ここにあなたの元コードと全く同じ内容を使用してOK（省略）
-    // 修正点は「cannon-es」→「cannon.js」への変更のみです
-    // それ以外のコードはそのまま動きます
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x87ceeb); // 空色にして確認しやすく
+
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 5;
+
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    const geometry = new THREE.BoxGeometry();
+    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    const cube = new THREE.Mesh(geometry, material);
+    scene.add(cube);
+
+    function animate() {
+      requestAnimationFrame(animate);
+      cube.rotation.x += 0.01;
+      cube.rotation.y += 0.01;
+      renderer.render(scene, camera);
+    }
+    animate();
   </script>
 </body>
 </html>
